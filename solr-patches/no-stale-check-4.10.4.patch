@@ -16,44 +16,11 @@ index f574f29..42168df 100644
  import org.apache.http.client.HttpClient;
  import org.apache.http.impl.client.DefaultHttpClient;
  import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
-@@ -163,7 +164,8 @@ public class HttpShardHandlerFactory extends ShardHandlerFactory implements org.
-       clientParams.set(HttpClientUtil.PROP_USE_RETRY, false);
-     }
-     this.defaultClient = HttpClientUtil.createClient(clientParams);
--    
+@@ -208,5 +207,7 @@ public class HttpShardHandlerFactory extends ShardHandlerFactory implements org.
+     httpRequestExecutor = new InstrumentedHttpRequestExecutor(this.metricNameStrategy);
+     clientConnectionManager = new InstrumentedPoolingHttpClientConnectionManager(HttpClientUtil.getSchemaRegisteryProvider().getSchemaRegistry());
+     this.defaultClient = HttpClientUtil.createClient(clientParams, clientConnectionManager, false, httpRequestExecutor);
 +    this.defaultClient.getParams().setParameter(HttpConnectionParams.STALE_CONNECTION_CHECK, false);
 +    this.defaultClient.getParams().setParameter(HttpConnectionParams.TCP_NODELAY, true);
-     // must come after createClient
-     if (useRetries) {
-       // our default retry handler will never retry on IOException if the request has been sent already,
-diff --git a/solr/solrj/src/java/org/apache/solr/client/solrj/impl/HttpClientUtil.java b/solr/solrj/src/java/org/apache/solr/client/solrj/impl/HttpClientUtil.java
-index fcbc80d..c98c982 100644
---- a/solr/solrj/src/java/org/apache/solr/client/solrj/impl/HttpClientUtil.java
-+++ b/solr/solrj/src/java/org/apache/solr/client/solrj/impl/HttpClientUtil.java
-@@ -17,6 +17,9 @@
- package org.apache.solr.client.solrj.impl;
- 
- import java.io.IOException;
-+import java.util.concurrent.Executors;
-+import java.util.concurrent.ScheduledExecutorService;
-+import java.util.concurrent.TimeUnit;
- import java.io.InputStream;
- import java.util.zip.GZIPInputStream;
- import java.util.zip.InflaterInputStream;
-@@ -115,6 +118,16 @@ public class HttpClientUtil {
-       logger.debug("Creating new http client, config:" + config);
+     this.loadbalancer = createLoadbalancer(defaultClient);
      }
-     final DefaultHttpClient httpClient = new SystemDefaultHttpClient();
-+    final org.apache.http.conn.ClientConnectionManager mgr = httpClient.getConnectionManager();
-+
-+    // Note: The sweeper task is assuming hard-coded Jetty max-idle of 50s.
-+    final Runnable sweeper = new Runnable() {
-+        public void run() {
-+            mgr.closeIdleConnections(40, TimeUnit.SECONDS);
-+        }
-+    };
-+    final ScheduledExecutorService stp = Executors.newScheduledThreadPool(1);
-+    stp.scheduleWithFixedDelay(sweeper, 5, 5, TimeUnit.SECONDS);
-     configureClient(httpClient, config);
-     return httpClient;
-   }

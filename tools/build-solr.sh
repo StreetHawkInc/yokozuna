@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh -x
 #
 # Build Solr from source, applying local patches.
 #
@@ -79,7 +79,7 @@ WORK_DIR=$1; shift
 NAME=$1; shift
 URL=$1; shift
 
-if ! javac -version 2>&1 | egrep "1\.7\.[0-9_.]+"
+if ! javac -version 2>&1 | egrep "1\.8\.[0-9_.]+"
 then
     echo "JDK 1.7 must be used to compile Solr"
     exit 1
@@ -132,7 +132,7 @@ ant dist example
 
 cd ..
 mv solr $NAME
-tar zcvf $NAME.tgz \
+tar zcf $NAME.tgz \
     --exclude='build*' \
     --exclude=cloud-dev \
     --exclude=core \
