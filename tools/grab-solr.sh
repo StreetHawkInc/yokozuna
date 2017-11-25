@@ -13,7 +13,7 @@ if [ $(basename $PWD) != "tools" ]
 then
     cd tools
 fi
-
+./build-solr.sh --patch-dir ../solr-patches /tmp/build-solr solr-7.1.0-yz http://archive.apache.org/dist/lucene/solr/7.1.0/solr-7.1.0-src.tgz | tee build-solr.out
 PRIV_DIR=../priv
 CONF_DIR=$PRIV_DIR/conf
 SOLR_DIR=$PRIV_DIR/solr
