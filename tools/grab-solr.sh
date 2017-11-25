@@ -105,7 +105,7 @@ then
     cp -r $SRC_DIR/server/resources $SOLR_DIR
     cp -r $SRC_DIR/server/solr-webapp $SOLR_DIR
     cp -r $SRC_DIR/server/start.jar $SOLR_DIR
-    cp -r $SRC_DIR/server/webapps $SOLR_DIR
+    #cp -r $SRC_DIR/server/webapps $SOLR_DIR
 
     echo "Solr dir created successfully"
 fi
