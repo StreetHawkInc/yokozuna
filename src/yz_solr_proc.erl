@@ -231,13 +231,13 @@ build_cmd(_JavaPath, _SolrPort, _SolrJXMPort, "data/::yz_solr_start_timeout::", 
 build_cmd(JavaPath, SolrPort, SolrJMXPort, Dir, TempDir) ->
     YZPrivSolr = filename:join([?YZ_PRIV, "solr"]),
     {ok, Etc} = application:get_env(riak_core, platform_etc_dir),
-    Headless = "-Djava.awt.headless=true",
+    Headless = "-server",
     SolrHome = "-Dsolr.solr.home=" ++ filename:absname(Dir),
     HostContext = "-DhostContext=" ++ ?SOLR_HOST_CONTEXT,
     JettyHome = "-Djetty.home=" ++ YZPrivSolr,
     JettyTemp = "-Djetty.temp=" ++ filename:absname(TempDir),
     Port = "-Djetty.port=" ++ integer_to_list(SolrPort),
-    CP = "-cp",
+    CP = "-jar",
     CP2 = filename:join([YZPrivSolr, "start.jar"]),
     %% log4j.properties must be in the classpath unless a full URL
     %% (e.g. file://) is given for it, and we'd rather not put etc or
@@ -246,7 +246,6 @@ build_cmd(JavaPath, SolrPort, SolrJMXPort, Dir, TempDir) ->
     Logging = "-Dlog4j.configuration=file://" ++
         filename:join([filename:absname(Etc), "solr-log4j.properties"]),
     LibDir = "-Dyz.lib.dir=" ++ filename:join([?YZ_PRIV, "java_lib"]),
-    Class = "org.eclipse.jetty.start.Main",
     case SolrJMXPort of
         undefined ->
             JMX = [];
@@ -258,7 +257,7 @@ build_cmd(JavaPath, SolrPort, SolrJMXPort, Dir, TempDir) ->
     end,
 
     Args = [Headless, JettyHome, JettyTemp, Port, SolrHome, HostContext, CP, CP2, Logging, LibDir]
-        ++ string:tokens(solr_jvm_opts(), " ") ++ JMX ++ [Class],
+        ++ string:tokens(solr_jvm_opts(), " ") ++ JMX,
     {JavaPath, Args}.
 
 %% @private
