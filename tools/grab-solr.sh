@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -x
+#!/usr/bin/env bash
 #
 # Script to grab Solr and embed in priv dir. This script assumes it is
 # being called from root dir or tools dir.
