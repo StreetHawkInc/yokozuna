@@ -25,6 +25,7 @@ TMP_FILE=$TMP_DIR/$FILENAME
 SRC_DIR=$BUILD_DIR/$VSN
 EXAMPLE_DIR=$SRC_DIR/example
 COL1_DIR=$EXAMPLE_DIR/solr/collection1
+cp /tmp/build-solr/solr-7.1.0-yz/solr-7.1.0-yz.tgz $TMP_FILE
 
 check_for_solr()
 {
