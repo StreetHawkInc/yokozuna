@@ -1,4 +1,4 @@
-#! /bin/sh -x
+#! /bin/bash
 #
 # Build Solr from source, applying local patches.
 #
@@ -81,7 +81,7 @@ URL=$1; shift
 
 if ! javac -version 2>&1 | egrep "1\.8\.[0-9_.]+"
 then
-    echo "JDK 1.7 must be used to compile Solr"
+    echo "JDK 1.8 must be used to compile Solr"
     exit 1
 fi
 
@@ -128,7 +128,7 @@ ant compile
 cd solr
 # NOTE: needed for 4.0 release
 # mkdir test-framework/lib
-ant dist example
+ant dist
 
 cd ..
 mv solr $NAME
