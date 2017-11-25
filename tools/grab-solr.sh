@@ -93,7 +93,7 @@ then
     # which shouldn't be overwritten).  For whatever reason, cp -n causes
     # non-zero exit code when files that would have been overwritten are
     # detected.
-    cp -r $SRC_DIR/server/etc/create-solrtest.keystore.sh $SOLR_DIR/etc
+    #cp -r $SRC_DIR/server/etc/create-solrtest.keystore.sh $SOLR_DIR/etc
     cp -r $SRC_DIR/server/etc/webdefault.xml $SOLR_DIR/etc
     cp -r $SRC_DIR/server/lib $SOLR_DIR
     cp -r $COL1_DIR/conf/lang $CONF_DIR
