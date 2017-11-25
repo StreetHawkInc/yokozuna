@@ -24,7 +24,8 @@ TMP_DIR=/var/tmp/yokozuna
 TMP_FILE=$TMP_DIR/$FILENAME
 SRC_DIR=$BUILD_DIR/$VSN
 EXAMPLE_DIR=$SRC_DIR/example
-COL1_DIR=$EXAMPLE_DIR/solr/collection1
+COL1_DIR=$SRC_DIR/server/solr/configsets/_default/
+: ${ARTIFACT_URL_PREFIX:="http://s3.amazonaws.com/files.basho.com"}
 cp /tmp/build-solr/solr-7.1.0-yz/solr-7.1.0-yz.tgz $TMP_FILE
 
 check_for_solr()
@@ -92,19 +93,19 @@ then
     # which shouldn't be overwritten).  For whatever reason, cp -n causes
     # non-zero exit code when files that would have been overwritten are
     # detected.
-    cp -r $EXAMPLE_DIR/etc/create-solrtest.keystore.sh $SOLR_DIR/etc
-    cp -r $EXAMPLE_DIR/etc/webdefault.xml $SOLR_DIR/etc
-    cp -r $EXAMPLE_DIR/lib $SOLR_DIR
+    cp -r $SRC_DIR/server/etc/create-solrtest.keystore.sh $SOLR_DIR/etc
+    cp -r $SRC_DIR/server/etc/webdefault.xml $SOLR_DIR/etc
+    cp -r $SRC_DIR/server/lib $SOLR_DIR
     cp -r $COL1_DIR/conf/lang $CONF_DIR
     cp $COL1_DIR/conf/protwords.txt $CONF_DIR
     cp $COL1_DIR/conf/stopwords.txt $CONF_DIR
     cp $COL1_DIR/conf/synonyms.txt $CONF_DIR
     cp $COL1_DIR/conf/mapping-* $CONF_DIR
     # TODO: does resources need to be copied?
-    cp -r $EXAMPLE_DIR/resources $SOLR_DIR
-    cp -r $EXAMPLE_DIR/solr-webapp $SOLR_DIR
-    cp -r $EXAMPLE_DIR/start.jar $SOLR_DIR
-    cp -r $EXAMPLE_DIR/webapps $SOLR_DIR
+    cp -r $SRC_DIR/server/resources $SOLR_DIR
+    cp -r $SRC_DIR/server/solr-webapp $SOLR_DIR
+    cp -r $SRC_DIR/server/start.jar $SOLR_DIR
+    cp -r $SRC_DIR/server/webapps $SOLR_DIR
 
     echo "Solr dir created successfully"
 fi
