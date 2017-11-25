@@ -100,7 +100,7 @@ then
     cp $COL1_DIR/conf/protwords.txt $CONF_DIR
     cp $COL1_DIR/conf/stopwords.txt $CONF_DIR
     cp $COL1_DIR/conf/synonyms.txt $CONF_DIR
-    cp $COL1_DIR/conf/mapping-* $CONF_DIR
+    #cp $COL1_DIR/conf/mapping-* $CONF_DIR
     # TODO: does resources need to be copied?
     cp -r $SRC_DIR/server/resources $SOLR_DIR
     cp -r $SRC_DIR/server/solr-webapp $SOLR_DIR
