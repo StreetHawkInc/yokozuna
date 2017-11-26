@@ -239,6 +239,7 @@ build_cmd(JavaPath, SolrPort, SolrJMXPort, Dir, TempDir) ->
     Port = "-Djetty.port=" ++ integer_to_list(SolrPort),
     CP = "-jar",
     CP2 = filename:join([YZPrivSolr, "start.jar"]),
+    Module = "--module=http"
     %% log4j.properties must be in the classpath unless a full URL
     %% (e.g. file://) is given for it, and we'd rather not put etc or
     %% data on the classpath, but we have to templatize the file to
@@ -256,7 +257,19 @@ build_cmd(JavaPath, SolrPort, SolrJMXPort, Dir, TempDir) ->
             JMX = [JMXPortArg, JMXAuthArg, JMXSSLArg]
     end,
 
-    Args = [Headless, JettyHome, JettyTemp, Port, SolrHome, HostContext, CP, CP2, Logging, LibDir]
+    Args = [
+            Headless,
+            JettyHome,
+            JettyTemp,
+            Port,
+            SolrHome,
+            HostContext,
+            CP,
+            CP2,
+            Module,
+            Logging,
+            LibDir
+           ]
         ++ string:tokens(solr_jvm_opts(), " ") ++ JMX,
     {JavaPath, Args}.
 
