@@ -95,6 +95,7 @@ then
     # detected.
     #cp -r $SRC_DIR/server/etc/create-solrtest.keystore.sh $SOLR_DIR/etc
     cp -r $SRC_DIR/server/etc/webdefault.xml $SOLR_DIR/etc
+    cp -r $SRC_DIR/server/etc/jetty-http.xml $SOLR_DIR/etc
     cp -r $SRC_DIR/server/lib $SOLR_DIR
     cp -r $COL1_DIR/conf/lang $CONF_DIR
     cp $COL1_DIR/conf/protwords.txt $CONF_DIR
@@ -105,7 +106,7 @@ then
     cp -r $SRC_DIR/server/resources $SOLR_DIR
     cp -r $SRC_DIR/server/solr-webapp $SOLR_DIR
     cp -r $SRC_DIR/server/start.jar $SOLR_DIR
-    #cp -r $SRC_DIR/server/webapps $SOLR_DIR
+    cp -r $SRC_DIR/webapps $SOLR_DIR
 
     echo "Solr dir created successfully"
 fi

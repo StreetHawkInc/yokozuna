@@ -24,9 +24,9 @@ if [ ! -x "`which javac`" ] || [ ! -x "`which jar`" ]; then
     exit 1
 fi
 
-if ! javac -version 2>&1 | egrep "1\.7\.[0-9_.]+"
+if ! javac -version 2>&1 | egrep "1\.8\.[0-9_.]+"
 then
-    echo "JDK 1.7 must be used to compile these jars"
+    echo "JDK 1.8 must be used to compile these jars"
     exit 1
 fi
 
@@ -47,25 +47,26 @@ echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 echo "Build the yokozuna.jar..."
 
 SOLR_DIR=../priv/solr
-SOLR_WAR=$SOLR_DIR/webapps/solr.war
+#SOLR_WAR=$SOLR_DIR/webapps/solr.war
 SOLR_JAR_DIR=../build/solr-jars
 
-if [ ! -e $SOLR_WAR ]; then
-    echo "Download the Solr package..."
-    ./grab-solr.sh
-fi
+#if [ ! -e $SOLR_WAR ]; then
+#    echo "Download the Solr package..."
+#    ./grab-solr.sh
+#fi
 
 if [ ! -e $SOLR_JAR_DIR ]; then
-    echo "Explode the WAR..."
+    #echo "Explode the WAR..."
     mkdir $SOLR_JAR_DIR
-    cp $SOLR_WAR $SOLR_JAR_DIR
+    cp -r $SOLR_DIR/webapps/web/ $SOLR_JAR_DIR
     pushd $SOLR_JAR_DIR
-    jar xf solr.war WEB-INF/lib
-    mv WEB-INF/lib/* .
-    rm -rf WEB-INF solr.war
+    #jar xf solr.war WEB-INF/lib
+    mv lib/* .
+    #rm -rf WEB-INF solr.war
+
     popd
     # copy logging jars
-    cp $SOLR_DIR/lib/ext/* $SOLR_JAR_DIR
+    cp $SOLR_DIR/server/lib/ext/* $SOLR_JAR_DIR
 fi
 
 
