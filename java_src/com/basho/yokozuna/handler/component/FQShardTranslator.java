@@ -72,7 +72,7 @@ public class FQShardTranslator extends SearchComponent {
         return "Yokozuna's FQ Shard Translator";
     }
 
-    @Override
+    //@Override
     public String getSource() {
         return "https://github.com/basho/yokozuna";
     }

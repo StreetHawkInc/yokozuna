@@ -14,12 +14,13 @@
 package com.basho.yokozuna.query;
 
 import org.apache.solr.client.solrj.SolrRequest;
-import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.common.params.ModifiableSolrParams;
+import java.lang.StringBuilder;
 
 public class SimpleQueryExample {
 
@@ -29,7 +30,7 @@ public class SimpleQueryExample {
         final String field = args[2];
         final String term = args[3];
 
-        final SolrServer solr = new HttpSolrServer(baseURL + "/" + index);
+        final SolrClient solr = new HttpSolrClient.Builder(baseURL + "/" + index).build();
         final ModifiableSolrParams params = new ModifiableSolrParams();
         params.set("qt", "/");
         params.set("q", field + ":" + term);

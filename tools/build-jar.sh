@@ -63,7 +63,6 @@ if [ ! -e $SOLR_JAR_DIR ]; then
     #jar xf solr.war WEB-INF/lib
     mv lib/* .
     #rm -rf WEB-INF solr.war
-
     popd
     # copy logging jars
     cp $SOLR_DIR/server/lib/ext/* $SOLR_JAR_DIR

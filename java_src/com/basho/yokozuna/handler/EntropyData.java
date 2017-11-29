@@ -22,8 +22,8 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.apache.lucene.util.Bits;
 import org.apache.lucene.util.BytesRef;
-import org.apache.lucene.index.AtomicReader;
-import org.apache.lucene.index.DocsEnum;
+import org.apache.lucene.index.LeafReader;
+import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.DocIdSetIterator;
@@ -81,7 +81,7 @@ public class EntropyData
 
         try {
             final SolrIndexSearcher searcher = req.getSearcher();
-            final AtomicReader rdr = searcher.getAtomicReader();
+            final LeafReader rdr = searcher.getSlowAtomicReader();
             BytesRef tmp = null;
             final Terms terms = rdr.terms(ENTROPY_DATA_FIELD);
 
@@ -90,7 +90,7 @@ public class EntropyData
                 return;
             }
 
-            final TermsEnum te = terms.iterator(null);
+            final TermsEnum te = terms.iterator();
 
             if (isContinue(cont)) {
                 if (log.isDebugEnabled()) {
@@ -179,7 +179,7 @@ public class EntropyData
     }
 
     static boolean isLive(final Bits liveDocs, final TermsEnum te) throws IOException {
-        final DocsEnum de = te.docs(liveDocs, null);
+        final PostingsEnum de = te.postings(liveDocs, null);
         return de.nextDoc() != DocIdSetIterator.NO_MORE_DOCS;
     }
 
@@ -201,12 +201,12 @@ public class EntropyData
         return "vector clock data iterator";
     }
 
-    @Override
+    //@Override
     public String getVersion() {
         return "0.0.1";
     }
 
-    @Override
+    //@Override
     public String getSource() {
         return "TODO: implement getSource";
     }
