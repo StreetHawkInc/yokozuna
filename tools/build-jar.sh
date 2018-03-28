@@ -24,7 +24,7 @@ if [ ! -x "`which javac`" ] || [ ! -x "`which jar`" ]; then
     exit 1
 fi
 
-if ! javac -version 2>&1 | egrep "1\.7\.[0-9_.]+"
+if ! javac -version 2>&1 | egrep "1\.8\.[0-9_.]+"
 then
     echo "JDK 1.7 must be used to compile these jars"
     exit 1

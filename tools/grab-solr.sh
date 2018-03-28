@@ -18,13 +18,14 @@ PRIV_DIR=../priv
 CONF_DIR=$PRIV_DIR/conf
 SOLR_DIR=$PRIV_DIR/solr
 BUILD_DIR=../build
-VSN=solr-4.10.4-yz-2
+VSN=solr-6.6.2-yz-2
 FILENAME=$VSN.tgz
 TMP_DIR=/var/tmp/yokozuna
 TMP_FILE=$TMP_DIR/$FILENAME
 SRC_DIR=$BUILD_DIR/$VSN
 EXAMPLE_DIR=$SRC_DIR/example
-COL1_DIR=$EXAMPLE_DIR/solr/collection1
+COL1_DIR=$SRC_DIR/server/solr/configsets/_default/
+cp /tmp/build-solr/solr-6.6.2-yz/solr-6.6.2-yz.tgz $TMP_FILE
 
 check_for_solr()
 {
@@ -108,29 +109,29 @@ then
     echo "Solr dir created successfully"
 fi
 
-JAVA_LIB=../priv/java_lib
-YZ_JAR_VSN=3
-YZ_JAR_NAME=yokozuna-$YZ_JAR_VSN.jar
-
-if [ ! -e $JAVA_LIB/$YZ_JAR_NAME ]
-then
-    if [ ! -d $JAVA_LIB ]
-    then
-        mkdir $JAVA_LIB
-    fi
-
-    echo "Downloading $YZ_JAR_NAME"
-    download "http://s3.amazonaws.com/files.basho.com/yokozuna/$YZ_JAR_NAME"
-    mv $YZ_JAR_NAME $JAVA_LIB/$YZ_JAR_NAME
-fi
-
-EXT_LIB=../priv/solr/lib/ext
-MON_JAR_VSN=1
-MON_JAR_NAME=yz_monitor-$MON_JAR_VSN.jar
-
-if [ ! -e $EXT_LIB/$MON_JAR_NAME ]
-then
-    echo "Downloading $MON_JAR_NAME"
-    download "http://s3.amazonaws.com/files.basho.com/yokozuna/$MON_JAR_NAME"
-    mv $MON_JAR_NAME $EXT_LIB/$MON_JAR_NAME
-fi
+#JAVA_LIB=../priv/java_lib
+#YZ_JAR_VSN=3
+#YZ_JAR_NAME=yokozuna-$YZ_JAR_VSN.jar
+#
+#if [ ! -e $JAVA_LIB/$YZ_JAR_NAME ]
+#then
+#    if [ ! -d $JAVA_LIB ]
+#    then
+#        mkdir $JAVA_LIB
+#    fi
+#
+#    echo "Downloading $YZ_JAR_NAME"
+#    download "http://s3.amazonaws.com/files.basho.com/yokozuna/$YZ_JAR_NAME"
+#    mv $YZ_JAR_NAME $JAVA_LIB/$YZ_JAR_NAME
+#fi
+#
+#EXT_LIB=../priv/solr/lib/ext
+#MON_JAR_VSN=1
+#MON_JAR_NAME=yz_monitor-$MON_JAR_VSN.jar
+#
+#if [ ! -e $EXT_LIB/$MON_JAR_NAME ]
+#then
+#    echo "Downloading $MON_JAR_NAME"
+#    download "http://s3.amazonaws.com/files.basho.com/yokozuna/$MON_JAR_NAME"
+#    mv $MON_JAR_NAME $EXT_LIB/$MON_JAR_NAME
+#fi
